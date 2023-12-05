@@ -9,7 +9,7 @@ require("dotenv").config();
 //set up for the searchbar
 const profileController = require("./controllers/ProfileController");
 const productController = require("./controllers/ProductController");
-
+// const invoiceController = require("./controllers/invoiceController"); <-- uncomment when get to search bar
 //declaring mongoose
 const mongoose = require("mongoose");
 
@@ -20,6 +20,7 @@ const mongoose = require("mongoose");
 const indexRouter = require("./routers/indexRouter");
 const productsRouter = require("./routers/productsRouter");
 const profilesRouter = require("./routers/profilesRouter");
+const invoicesRouter = require("./routers/invoicesRouter");
 
 // set up default mongoose connection
 mongoose.connect(uri);
@@ -62,11 +63,13 @@ app.get("/profiles/search", profileController.searchProfiles);
 
 // Product search route
 app.get("/products/search", productController.searchProducts);
+// app.get("/invoices/search", invoiceController.searchProducts) //<--- uncomment after search bar built
 
 //routes
 app.use("/", indexRouter);
 app.use("/products", productsRouter);
 app.use("/profiles", profilesRouter);
+app.use("/invoices", invoicesRouter);
 
 //catch any unmatched routes
 app.all("/*", (req, res) => {
