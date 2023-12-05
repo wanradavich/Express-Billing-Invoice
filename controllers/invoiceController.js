@@ -56,14 +56,15 @@ exports.Invoices = async function (request, response) {
     }
   };
 
-//   exports.Create = async function (request, response) {
-//     response.render("product-form", {
-//       title: "Create Product",
-//       errorMessage: "",
-//       product_id: null,
-//       product: {},
-//     });
-//   };
+// Handle profile form GET request
+// exports.Create = async function (request, response) {
+//   response.render("invoice-form", {
+//     title: "Create Invoice",
+//     errorMessage: "",
+//     invoice: {},
+//     layout: "layouts/full-width"
+//   });
+// }; 
   
 //   exports.CreateProduct = async function (request, response) {
 //     let tempProductObj = new Product({
@@ -91,4 +92,24 @@ exports.Invoices = async function (request, response) {
 //       });
 //     }
 //   };
+
+exports.DeleteInvoiceById = async function (request, response) {
+  const invoiceId = request.params.id;
+  console.log(`deleting a single invoice by id ${invoiceId}`);
+  let deletedProduct = await _invoiceOps.deleteProduct(invoiceId);
+  let invoices = await _invoiceOps.getAllInvoices();
+
+  if (deletedProduct) {
+    response.render("invoices", {
+      title: "Invoices",
+      invoices: invoices,
+    });
+  } else {
+    response.render("invoices", {
+      title: "Invoices",
+      invoices: invoices,
+      errorMessage: "Error. Could not delete invoice.",
+    });
+  }
+};
 

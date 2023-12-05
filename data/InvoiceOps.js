@@ -26,25 +26,27 @@ class InvoiceOps{
       }
     
       async createInvoice(invoiceObj) {
-        try{
+        try {
           const error = await invoiceObj.validateSync();
-          if(error){
+          if (error) {
             const response = {
               obj: invoiceObj,
-              errorMsg: error.message
+              errorMsg: error.message,
             };
-            return response;
+            return response; // Exit if the model is invalid
           }
+    
+          // Model is valid, so save it
           const result = await invoiceObj.save();
           const response = {
-            obj: result, 
-            errorMsg: ""
+            obj: result,
+            errorMsg: "",
           };
           return response;
-        } catch(error) {
+        } catch (error) {
           const response = {
             obj: invoiceObj,
-            errorMsg: error.message
+            errorMsg: error.message,
           };
           return response;
         }
