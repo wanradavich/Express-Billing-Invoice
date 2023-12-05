@@ -1,6 +1,27 @@
+<head>
+  <link rel="stylesheet" href="/styles/styles.css">
+</head>
 <main id="invoice-page">
-    <section>
-      <h1><%= title %></h1>
-      <h2>Under Contruction And Coming Soon!</h2>
-    </section>
+  <div class="header-container">
+    <h1> <%= title %></h1>
+    <form action="/products/search" method="GET">
+      <input class="searchbar" type="text" name="q" placeholder="Search by invoice">
+      <button class="btn btn-primary" type="submit">Search</button>
+    </form>
+    <div class="header-container">
+      <a class="btn btn-success" href="/products/create">Add New Invoice</a> 
+    </div>
+</div>
+<div id="list-container">
+  <ul>
+      <% invoices.forEach(product => { %>
+          <% if (product && product.productName && product._id) { %>
+              <li class="clientsNames">
+                  <a href="/products/<%= product._id %>"><%= product.productName %></a> 
+                  <a href="/products/<%= product._id%>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a>
+              </li>
+          <% } %>
+      <% }) %>
+  </ul>
+</div>
 </main>
