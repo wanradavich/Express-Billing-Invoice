@@ -6,8 +6,8 @@ const invoiceController = require("../controllers/invoiceController");
 invoicesRouter.get("/", invoiceController.Invoices);
 
 //route for create
-// invoicesRouter.get("/create", invoiceController.Create);
-// invoicesRouter.post("/create", invoiceController.CreateInvoice);
+invoicesRouter.get("/create", invoiceController.Create);
+invoicesRouter.post("/create", invoiceController.CreateInvoice);
 
 //route for getById
 invoicesRouter.get("/:id", invoiceController.InvoiceDetail);
