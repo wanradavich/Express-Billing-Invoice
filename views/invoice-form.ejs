@@ -14,17 +14,58 @@
         <input id="issueDate" name="issueDate" type="date" value="<%= invoice.invoiceDate %>">
         <label for="dueDate">Due Date: </label>
         <input id="dueDate" name="dueDate" type="date" value="<%= invoice.invoiceDueDate %>">
-        <label for="invoiceProduct">Products: </label>
+        <!-- <label for="invoiceProduct">Products: </label>
         <select id="invoiceProduct" name="invoiceProduct">
             <% products.forEach(product => { %>
                 <option value="<%= product._id %>"><%= product.productName %> <%= product.unitPrice %></option>
             <% }) %>
         </select>
         <label for="itemAmount">Quantity: </label>
-        <input id="itemAmount" name="itemAmount" type="number" value="<%= invoice.itemAmount %>">
-        <button class="btn btn-success" type="button" onclick="addLineItem()">+ Add Another Line Item</button>
+        <input id="itemAmount" name="itemAmount" type="number" value="<%= invoice.itemAmount %>"> -->
+        <!-- Line Items Section -->
+        <div id="lineItems">
+            <div id="lineItemFields">
+                <div class="line-item">
+                    <label for="product_0">Product:</label>
+                    <select id="product_0" name="product_0">
+                        <% products.forEach(product => { %>
+                            <option value="<%= product._id %>"><%= product.productName %> - <%= product.unitPrice %></option>
+                        <% }) %>
+                    </select>
+                    <label for="quantity_0">Quantity:</label>
+                    <input id="quantity_0" name="quantity_0" type="number">
+                </div>
+            </div>
+            <button class="btn btn-success" type="button" onclick="addLineItem()">+ Add Another Line Item</button>
+        </div>
+        
         <button class="btn btn-info" type="submit" value="Submit">Save</button>
     </form>
     <a class="cancelBtn" href="/invoices"><button class="btn btn-danger">Cancel</button></a>
 </div>
 <%= errorMessage %>
+
+<script>
+    let lineItemIndex = 1; // Initialize index for line items
+
+    function addLineItem() {
+        const lineItemFields = document.getElementById('lineItemFields');
+
+        const newLineItem = document.createElement('div');
+        newLineItem.classList.add('line-item');
+
+        newLineItem.innerHTML = `
+            <label for="product_${lineItemIndex}">Product:</label>
+            <select id="product_${lineItemIndex}" name="product_${lineItemIndex}">
+                <% products.forEach(product => { %>
+                    <option value="<%= product._id %>"><%= product.productName %> - <%= product.unitPrice %></option>
+                <% }) %>
+            </select>
+            <label for="quantity_${lineItemIndex}">Quantity:</label>
+            <input id="quantity_${lineItemIndex}" name="quantity_${lineItemIndex}" type="number">
+        `;
+
+        lineItemFields.appendChild(newLineItem);
+        lineItemIndex++;
+    }
+</script>
