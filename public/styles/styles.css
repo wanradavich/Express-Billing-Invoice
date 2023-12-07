@@ -263,9 +263,43 @@ input {
 /* End of edit form styling */
 
 /* Invoice styling - Kai */
-#invoice-page {
+#invoice-form-container form{
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
+}
+
+#invoice-form-container label{
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 24px;
+  padding-bottom: 10px;
+}
+
+#invoice-form-container button{
+  margin: 10px;
+}
+
+.cancelBtn{
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+}
+
+#detail-heading{
+  font-size: 30px;
+}
+
+#view{
+  font-size: 18px;
+}
+
+#rate-css{
+  
+}
+#amount-css{
+  display: flex;
   justify-content: center;
 }
 /*end of invoice styling */

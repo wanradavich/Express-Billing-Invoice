@@ -1,23 +1,21 @@
 <main id="details-container">
-    <% for (let i = 0; i < invoices.length; i++) { %> <% if (invoices[i].id ===
-        invoiceId) { %>
-        <h1><%= invoices[i].invoiceName%></h1>
-        <div id="view">
-            <div><strong>Invoice ID: </strong> <%= invoices[i].id%></div>
-            <div><strong>Name: </strong> <%= invoices[i].invoiceCompanyName></div>
-            <div><strong>Company: </strong> <%= invoices[i].invoiceCompanyName></div>
-            <div><strong>Email: </strong> <%= invoices[i].invoiceEmail></div>
-            <div><strong>Date: </strong> <%= invoices[i].invoiceDate></div>
-            <div><strong>Balance: </strong> <%= invoices[i].invoiceTotalDue></div>
-            <div><strong>Due Date: </strong> <%= invoices[i].invoiceDueDate></div>
-            <div><strong>Item Rate: </strong> <%= invoices[i].invoiceRate></div>
-            <div><strong>Item Amount: </strong> <%= invoices[i].itemAmount></div>
-        </div>
-        <!-- <div id="edit">
-            <a href="/products/edit/<%=products[i]._id%>"><button class="btn btn-warning">Edit</button></a>
-        </div> -->
-        <div id="back-to-invoices-btn">
-            <a href="/invoices"><button class="btn btn-primary">Back to Invoices</button></a>
-        </div>
-    <% } %> <% } %>
+    <% for (let i = 0; i < invoices.length; i++) { %>
+        <% if (invoices[i].id === invoiceId) { %>
+            <h1 id="detail-heading"><%= invoices[i].invoiceName %></h1>
+            < id="view">
+                <div><strong>Invoice ID: </strong><%= invoices[i].id %></div>
+                <div><strong>Name: </strong><%= invoices[i].invoiceCompanyName %></div>
+                <div><strong>Company: </strong><%= invoices[i].invoiceCompanyName %></div>
+                <div><strong>Email: </strong><%= invoices[i].invoiceEmail %></div>
+                <div><strong>Date: </strong><%= invoices[i].invoiceDate %></div>
+                <div><strong>Balance: </strong><%= invoices[i].invoiceTotalDue %></div>
+                <div><strong>Due Date: </strong><%= invoices[i].invoiceDueDate %></div>
+                <div><strong>Item Rate: </strong><%= invoices[i].invoiceRate %></div>
+                <div><strong>Item Amount: </strong><%= invoices[i].itemAmount %></div>
+            </div>
+            <div id="back-to-invoices-btn">
+                <a href="/invoices"><button class="btn btn-primary">Back to Invoices</button></a>
+            </div>
+        <% } %>
+    <% } %>
 </main>
