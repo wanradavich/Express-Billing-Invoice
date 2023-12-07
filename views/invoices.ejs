@@ -16,12 +16,10 @@
   <ul>
       <% invoices.forEach(invoice => { %>
         <% if (invoice && invoice._id) { %>
-          <!-- <% if (product && product.productName && product._id) { %> -->
               <li class="invoices">
                 <a href="/invoices/<%= invoice._id %>"><%= invoice.invoiceName %></a> 
                 <a href="/invoices/<%= invoice._id%>/delete"><button id="invoiceDeleteBtn" class="btn btn-danger">Delete</button></a>
-                  <!-- <a href="/products/<%= product._id %>"><%= product.productName %></a> 
-                  <a href="/products/<%= product._id%>/delete"><button id="cliDelBtn" class="btn btn-danger">Delete</button></a> -->
+                  
               </li>
           <% } %>
       <% }) %>

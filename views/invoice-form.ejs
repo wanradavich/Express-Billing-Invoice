@@ -50,11 +50,12 @@
         <label for="invoiceProduct">Products: </label>
         <select id="invoiceProduct" name="invoiceProduct">
             <% products.forEach(product => { %>
-                <option value="<%= product._id %>"><%= product.productName %></option>
+                <option value="<%= product._id %>"><%= product.productName %> <%= product.unitPrice %></option>
             <% }) %>
         </select>
         <label for="itemAmount">Quantity: </label>
         <input id="itemAmount" name="itemAmount" type="number" value="<%= invoice.itemAmount %>">
+        <button type="button" onclick="addLineItem()">+ Add Another Line Item</button>
         <button type="submit" value="Submit">Save</button>
     </form>
     <a href="/invoices"><button>Cancel</button></a>
