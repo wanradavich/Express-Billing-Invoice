@@ -295,10 +295,7 @@ input {
   font-size: 18px;
 }
 
-#rate-css{
-  
-}
-#amount-css{
+#lineItems label{
   display: flex;
   justify-content: center;
 }

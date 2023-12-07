@@ -82,14 +82,28 @@ exports.Invoices = async function (request, response) {
     console.log(productObj);
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
+
+    const lineItems = [];
+    const quantities = req.body.quantities;
+    const productIds = req.body.productIds
+    //going to try to loop through the product Ids for line items
+    for ( let i = 0; i < productIds.length; i++){
+      const product = await _productOps.getProductById(productIds[i]);
+      lineItems.push({
+        product: product.productName,
+        quantity: quantities[i],
+        rate: product.unitCost,
+        amount: quantities[i] * product.unitCost,
+      });
+    }
+
     let tempInvoiceObj = new Invoice({
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj.name,
       invoiceProduct: productObj.productName,
       invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
-      itemAmount: request.body.itemAmount,
-      itemRate: productObj.unitCost,
+      lineItems: lineItems, // pass line items
       invoiceTotalDue: itemRate * itemAmount
     });
 

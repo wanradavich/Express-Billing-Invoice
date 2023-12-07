@@ -35,7 +35,13 @@ const invoiceSchema = new mongoose.Schema({
         itemAmount:{
             type: Number,
             required: true
-        } 
+        },
+        lineItems: [
+            {
+                product: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
+                quantity: Number,
+              }
+        ]
     },
     {
         collection: "invoices"
