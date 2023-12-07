@@ -87,25 +87,29 @@ exports.Invoices = async function (request, response) {
     let tempInvoiceObj = new Invoice({
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj.name,
+      invoiceEmail: profileObj.email,
       invoiceProduct: productObj.productName,
       invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
       itemAmount: request.body.itemAmount,
       itemRate: productObj.unitCost,
-      invoiceTotalDue: itemRate * itemAmount
+      invoiceTotalDue: productObj.unitCost * request.body.itemAmount,
+      invoiceName: `Invoice # ${request.body.invoiceNumber} - ${profileObj.name}`
     });
+    
 
     let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
     if(responseObj.errorMsg == "") {
-      let products = await _productOps.getAllProducts();
-      let profiles = await _profileOps.getAllProfiles();
+      //let products = await _productOps.getAllProducts();
+      //let profiles = await _profileOps.getAllProfiles();
       console.log(responseObj.obj);
       response.render("invoiceDetails", {
         title: "Invoice",
-        products: products,
-        profiles: profiles,
-        invoiceId: responseObj.obj._id.valueOf()
+        //products: products,
+       // profiles: profiles,
+        invoiceId: responseObj.obj._id.valueOf(),
+        invoices: []
       });
     } else {
       console.log("An error occured. Invoice was not created.");
@@ -158,7 +162,7 @@ exports.Invoices = async function (request, response) {
 exports.DeleteInvoiceById = async function (request, response) {
   const invoiceId = request.params.id;
   console.log(`deleting a single invoice by id ${invoiceId}`);
-  let deletedProduct = await _invoiceOps.deleteProduct(invoiceId);
+  let deletedProduct = await _invoiceOps.deleteInvoice(invoiceId);
   let invoices = await _invoiceOps.getAllInvoices();
 
   if (deletedProduct) {

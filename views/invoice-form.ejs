@@ -47,17 +47,21 @@
         <input id="issueDate" name="issueDate" type="date" value="<%= invoice.invoiceDate %>">
         <label for="dueDate">Due Date: </label>
         <input id="dueDate" name="dueDate" type="date" value="<%= invoice.invoiceDueDate %>">
+
+        <input type="hidden" id="">
+
         <label for="invoiceProduct">Products: </label>
         <select id="invoiceProduct" name="invoiceProduct">
             <% products.forEach(product => { %>
-                <option value="<%= product._id %>"><%= product.productName %> <%= product.unitPrice %></option>
+                <option value="<%= product._id %>"><%= product.productName %></option>
             <% }) %>
         </select>
         <label for="itemAmount">Quantity: </label>
         <input id="itemAmount" name="itemAmount" type="number" value="<%= invoice.itemAmount %>">
+
         <button type="button" onclick="addLineItem()">+ Add Another Line Item</button>
         <button type="submit" value="Submit">Save</button>
+        <a href="/invoices"><button>Cancel</button></a>
     </form>
-    <a href="/invoices"><button>Cancel</button></a>
 </div>
 <%= errorMessage %>
