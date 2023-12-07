@@ -1,0 +1,13 @@
+<label for="clientName">Client: </label>
+        <select id="clientName" name="clientName">
+            <% profiles.forEach(profile => { %>
+                <option value="<%= profile._id %>"><%= profile.name %></option>
+            <% }) %>
+        </select>
+
+<label for="invoiceProduct">Products: </label>
+<select id="invoiceProduct" name="invoiceProduct">
+    <% products.forEach(product => { %>
+        <option value="<%= product._id %>"><%= product.productName %></option>
+    <% }) %>
+</select>

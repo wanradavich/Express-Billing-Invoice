@@ -1,5 +1,10 @@
 const InvoiceOps = require("../data/InvoiceOps");
+const Invoice = require("../models/Invoice");
 const _invoiceOps = new InvoiceOps();
+const ProductOps = require("../data/ProductOps");
+const _productOps = new ProductOps();
+const ProfileOps = require("../data/ProfileOps");
+const _profileOps = new ProfileOps();
 // const Invoice = require("../models/Invoice.js");
 
 exports.searchInvoice = async function (req,res) {
@@ -55,6 +60,63 @@ exports.Invoices = async function (request, response) {
       });
     }
   };
+
+
+
+  exports.Create = async function (request, response) {
+    let products = await _productOps.getAllProducts();
+    console.log(products);
+    let profiles = await _profileOps.getAllProfiles();
+    response.render("invoice-form", {
+      title: "Create Invoice",
+      errorMessage: "",
+      invoice_id: null,
+      invoice: {},
+      products: products,
+      profiles: profiles
+    });
+  };
+
+  exports.CreateInvoice = async function (request, response) {
+    let productId = request.body.invoiceProduct;
+    let productObj = await _productOps.getProductById(productId);
+    console.log(productId);
+    console.log(productObj);
+    let profileId = request.body.clientName;
+    let profileObj = await _profileOps.getProfileById(profileId);
+    let tempInvoiceObj = new Invoice({
+      invoiceNumber: request.body.invoiceNumber,
+      invoiceCompanyName: profileObj.name,
+      invoiceProduct: productObj.productName,
+      invoiceDate: request.body.issueDate,
+      invoiceDueDate: request.body.dueDate,
+      itemAmount: request.body.itemAmount,
+      itemRate: productObj.unitCost,
+      invoiceTotalDue: itemRate * itemAmount
+    });
+
+    let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
+
+    if(responseObj.errorMsg == "") {
+      let products = await _productOps.getAllProducts();
+      let profiles = await _profileOps.getAllProfiles();
+      console.log(responseObj.obj);
+      response.render("invoiceDetails", {
+        title: "Invoice",
+        products: products,
+        profiles: profiles,
+        invoiceId: responseObj.obj._id.valueOf()
+      });
+    } else {
+      console.log("An error occured. Invoice was not created.");
+      response.render("invoice-form", {
+        title: "Create Invoice",
+        invoice: responseObj.obj,
+        errorMessage: responseObj.errorMsg
+      });
+    }
+  };
+  
 
 // Handle profile form GET request
 // exports.Create = async function (request, response) {
