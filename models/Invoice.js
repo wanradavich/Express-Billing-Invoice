@@ -21,7 +21,7 @@ const invoiceSchema = new mongoose.Schema({
             required: true
         },
         invoiceDate: {
-            type: Date,
+            type: String,
             required: true
         },
         invoiceTotalDue: {
@@ -29,7 +29,7 @@ const invoiceSchema = new mongoose.Schema({
             required: true
         },
         invoiceDueDate: {
-            type: Date,
+            type: String,
             required: true
         },
         itemRate: {

@@ -85,14 +85,13 @@ exports.Invoices = async function (request, response) {
     console.log(productObj);
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
-    let dateObject = new Date(request.body.issueDate);
-    stringIssueDate = moment(dateObject).format('YYYY-MM-DD');
+
     let tempInvoiceObj = new Invoice({
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj.name,
       invoiceEmail: profileObj.email,
       invoiceProduct: productObj.productName,
-      invoiceDate: stringIssueDate,
+      invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
       itemAmount: request.body.itemAmount,
       itemRate: productObj.unitCost,
@@ -106,13 +105,14 @@ exports.Invoices = async function (request, response) {
     if(responseObj.errorMsg == "") {
       //let products = await _productOps.getAllProducts();
       //let profiles = await _profileOps.getAllProfiles();
+      let invoices = await _invoiceOps.getAllInvoices();
       console.log(responseObj.obj);
-      response.render("invoiceDetails", {
+      response.render("invoices", {
         title: "Invoice",
         //products: products,
        // profiles: profiles,
         invoiceId: responseObj.obj._id.valueOf(),
-        invoices: []
+        invoices: invoices
       });
     } else {
       console.log("An error occured. Invoice was not created.");

@@ -1,3 +1,10 @@
+/* html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+} */
+
 body {
   background-image: url(images/bg-photo.jpg);
 }
@@ -263,11 +270,11 @@ input {
 /* End of edit form styling */
 
 /* Invoice styling - Kai */
-#invoice-page {
+/* #invoice-page {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 /*end of invoice styling */
 .invoiceDetails {
   width: 700px;
@@ -277,8 +284,16 @@ input {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  padding: 15px;
+  justify-content: space-between;
+}
+#client-info {
+  margin-right: 60px;
+}
+#details-container {
+  width: 100%;
+  display: flex;
 
+  padding-right: 20px;
 }
 #invoiceHeader {
   display: flex;
@@ -286,7 +301,7 @@ input {
   margin-bottom: 160px;
   width: 100%;
   font-size: 1rem;
-
+  padding: 15px;
 }
 
 #summary {
@@ -297,6 +312,9 @@ input {
   width: 100%;
   margin-bottom: 90px;
 }
+#clientInvoiceId {
+  font-size: 0.75rem;
+}
 #billable-details {
   display: flex;
   width: 100%;
@@ -305,6 +323,12 @@ input {
 }
 #issue-date, #total-amount, #due-date {
   font-size: 0.75rem;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 22px;
+  padding-right: 22px;
 }
 
 #row-details {
