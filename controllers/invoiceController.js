@@ -5,6 +5,7 @@ const ProductOps = require("../data/ProductOps");
 const _productOps = new ProductOps();
 const ProfileOps = require("../data/ProfileOps");
 const _profileOps = new ProfileOps();
+const moment = require('moment');
 // const Invoice = require("../models/Invoice.js");
 
 exports.searchInvoice = async function (req,res) {
@@ -84,12 +85,14 @@ exports.Invoices = async function (request, response) {
     console.log(productObj);
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
+    let dateObject = new Date(request.body.issueDate);
+    stringIssueDate = moment(dateObject).format('YYYY-MM-DD');
     let tempInvoiceObj = new Invoice({
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj.name,
       invoiceEmail: profileObj.email,
       invoiceProduct: productObj.productName,
-      invoiceDate: request.body.issueDate,
+      invoiceDate: stringIssueDate,
       invoiceDueDate: request.body.dueDate,
       itemAmount: request.body.itemAmount,
       itemRate: productObj.unitCost,
