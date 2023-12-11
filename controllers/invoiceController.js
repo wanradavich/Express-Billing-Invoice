@@ -26,40 +26,51 @@ exports.searchInvoice = async function (req,res) {
 
 exports.Invoices = async function (request, response) {
     console.log("loading invoices from controller");
-    let invoices = await _invoiceOps.getAllInvoices();
-    if (invoices) {
-      response.render("invoices", {
-        title: "Invoices",
-        invoices: invoices,
-        layout: "layouts/full-width",
-      });
-    } else {
-      response.render("invoices", {
-        title: "Express Billing - Invoices",
-        invoices: [],
-      });
+    try {
+      const invoices = await Invoice.find().populate('profiles').exec();
+
+      if(invoices.length > 0) {
+        response.render("invoices", {
+          title: "Invoices",
+          invoices: invoices,
+          layout: "layouts/full-width",
+        });
+      } else {
+        response.render("invoices", {
+          title: "Invoices",
+          invoices: [],
+        });
+      }
+    } catch (error){
+      console.error("Error fetching invoices: ", error);
     }
   };
   
   exports.InvoiceDetail = async function (request, response) {
     const invoiceId = request.params.id;
-    console.log(`loading single invoice by id ${invoiceId}`);
-    let invoice = await _invoiceOps.getInvoiceById(invoiceId);
-    let invoices = await _invoiceOps.getAllInvoices();
-    if (invoice) {
+    console.log(`Loading single invoice by id ${invoiceId}`);
+    try {
+      const invoice = await _invoiceOps.getInvoiceById(invoiceId);
+      console.log('Invoice Products:', invoice.products);
+      console.log('Invoice Profiles:', invoice.profiles);
+  
       response.render("invoiceDetails", {
-        title: "Express Yourself - " + invoice.invoiceNumber,
-        invoices: invoices,
+        title: `Express Yourself - ${invoice.invoiceNumber}`,
+        invoice: invoice || {}, // Pass invoice data to the template
         invoiceId: request.params.id,
         layout: "layouts/full-width",
       });
-    } else {
+    } catch (error) {
+      console.error("Error fetching invoice details: ", error);
       response.render("invoiceDetails", {
         title: "Express Yourself - Invoices",
-        invoices: [],
+        invoice: {},
       });
     }
   };
+  
+  
+  
 
   exports.Create = async function (request, response) {
     let products = await _productOps.getAllProducts();

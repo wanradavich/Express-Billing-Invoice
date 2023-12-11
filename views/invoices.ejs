@@ -3,26 +3,25 @@
 </head>
 <main id="invoice-page">
   <div class="header-container">
-    <h1> <%= title %></h1>
-    <form action="/invoies/search" method="GET">
+    <h1><%= title %></h1>
+    <form action="/invoices/search" method="GET">
       <input class="searchbar" type="text" name="q" placeholder="Search by invoice">
       <button class="btn btn-primary" type="submit">Search</button>
     </form>
     <div class="header-container">
       <a class="btn btn-success" href="/invoices/create">Add New Invoice</a> 
     </div>
-</div>
-<div id="list-container">
-  <ul>
+  </div>
+  <div id="list-container">
+    <ul>
       <% invoices.forEach(invoice => { %>
         <% if (invoice && invoice._id) { %>
-              <li class="invoices">
-                <a href="/invoices/<%= invoice._id %>"><%= invoice.invoiceName %></a> 
-                <a href="/invoices/<%= invoice._id%>/delete"><button id="invoiceDeleteBtn" class="btn btn-danger">Delete</button></a>
-                  
-              </li>
-          <% } %>
+          <li class="invoices">
+            <a href="/invoices/<%= invoice._id %>">Invoice Number: <%= invoice.invoiceNumber %></a> 
+            <a href="/invoices/<%= invoice._id %>/delete"><button id="invoiceDeleteBtn" class="btn btn-danger">Delete</button></a>
+          </li>
+        <% } %>
       <% }) %>
-  </ul>
-</div>
+    </ul>
+  </div>
 </main>

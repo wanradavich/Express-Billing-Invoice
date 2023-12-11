@@ -1,73 +1,78 @@
-<% for (let i = 0; i < invoices.length; i++) { %> 
-    <% if (invoices[i].id === invoiceId) { %>
-        <section class="invoiceDetails">
-            <div id="invoiceHeader">
-                <img id="logo" src="/images/logo-img.png">
-                <address id="company-info">
-                    <div>Sydnee + Pat Solutions</div>
-                    <div>555 Seymour Street</div>
-                    <div>Vancouver, BC</div>
-                    <div>V6B 3H6</div>
-                    <div>sydandpat@hotmail.com</div>
-                </address>
-                <h2 id="invoiceNumberHeader">Invoice Number: <%= invoices[i].invoiceNumber %></h2>
-            </div>
+<% if (invoice) { %>
+    <section class="invoiceDetails">
+        <div id="invoiceHeader">
+            <img id="logo" src="/images/logo-img.png">
+            <address id="company-info">
+                <div>Sydnee + Pat Solutions</div>
+                <div>555 Seymour Street</div>
+                <div>Vancouver, BC</div>
+                <div>V6B 3H6</div>
+                <div>sydandpat@hotmail.com</div>
+            </address>
+            <h2 id="invoiceNumberHeader">Invoice Number: <%= invoice.invoiceNumber %></h2>
+        </div>
 
-            <main id="details-container">
-                <div id="view">
-                    <div id="summary">
-                        <div id="client-info">
-                            <h3>Bill To:</h3>
-                            <div><%= invoices[i].invoiceCompanyName %></div>
-                            <div><%= invoices[i].invoiceEmail %></div>
-                            <div id="clientInvoiceId">Invoice Id: <%= invoices[i].id %></div>
-                        </div>
-    
-                        <div id="issue-date">
-                            <div><b>DATE</b></div>
-                            <div><%= new Date(invoices[i].invoiceDate).toISOString().split('T')[0] %></div>
-                        </div>
-    
-                        <div id="total-amount">
-                            <div><b>PLEASE PAY</b></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
-                        </div>
-    
-                        <div id="due-date">
-                            <div><b>DUE DATE</b></div>
-                            <div><%= new Date(invoices[i].invoiceDate).toISOString().split('T')[0] %></div>
-                        </div>
+        <main id="details-container">
+            <div id="view">
+                <div id="summary">
+                    <div id="client-info">
+                        <h3>Bill To:</h3>
+                        <% if (invoice.profiles) { %>
+                            <div><%= invoice.profiles.name %></div>
+                            <div><%= invoice.profiles.email %></div>
+                        <% } %>
+                        <div id="clientInvoiceId">Invoice Id: <%= invoice._id %></div>
                     </div>
-                    
-                    <div id="billable-details">
-                        <div id="row-details">
-                            <div><b>Product(s)</b></div>
-                            <div><b>Quantity</b></div>
-                            <div><b>Rate</b></div>
-                            <div><b>Amount</b></div>
-                        </div>
-                        <div id="line-item">
-                            <div><%= invoices[i].invoiceProduct %></div>
-                            <div><%= invoices[i].itemAmount %></div>
-                            <div>$<%= invoices[i].itemRate %></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
-                        </div>
+
+                    <div id="issue-date">
+                        <div><b>DATE</b></div>
+                        <div><%= invoice.invoiceDate.toISOString().split('T')[0] %></div>
                     </div>
-                    <div id="payment-details">
-                        <div id="payment-method">
-                            Please submit your payment via Interac<br>
-                            E-Transfer to sydandpat@hotmail.com.
-                        </div>
-                        <div id="payment-summary">
-                            <div><b>TOTAL DUE:</b></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
-                        </div>
+
+                    <div id="total-amount">
+                        <div><b>PLEASE PAY</b></div>
+                        <div>$<%= invoice.invoiceTotalDue %></div>
+                    </div>
+
+                    <div id="due-date">
+                        <div><b>DUE DATE</b></div>
+                        <div><%= invoice.invoiceDate.toISOString().split('T')[0] %></div>
                     </div>
                 </div>
-                <div id="back-to-invoices-btn">
-                    <a href="/invoices"><button class="btn btn-primary">Back to Invoices</button></a>
+
+                <div id="billable-details">
+                    <div id="row-details">
+                        <div><b>Product(s)</b></div>
+                        <div><b>Quantity</b></div>
+                        <div><b>Rate</b></div>
+                        <div><b>Amount</b></div>
+                    </div>
+                    <% if (invoice.products && invoice.products.length > 0) { %>
+                        <% invoice.products.forEach(function(product, index) { %>
+                            <div id="line-item">
+                                <div><%= product.name %></div>
+                                <div><%= invoice.quantities[index] %></div>
+                                <div>$<%= product.rate %></div>
+                                <div>$<%= product.rate * invoice.quantities[index] %></div>
+                            </div>
+                        <% }) %>
+                    <% } %>
                 </div>
-            </main>
-        </section>
-    <% } %> 
-<% } %> 
+
+                <div id="payment-details">
+                    <div id="payment-method">
+                        Please submit your payment via Interac<br>
+                        E-Transfer to sydandpat@hotmail.com.
+                    </div>
+                    <div id="payment-summary">
+                        <div><b>TOTAL DUE:</b></div>
+                        <div>$<%= invoice.invoiceTotalDue %></div>
+                    </div>
+                </div>
+            </div>
+            <div id="back-to-invoices-btn">
+                <a href="/invoices"><button class="btn btn-primary">Back to Invoices</button></a>
+            </div>
+        </main>
+    </section>
+<% } %>

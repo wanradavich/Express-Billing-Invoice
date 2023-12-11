@@ -1,29 +1,34 @@
 const Invoice = require("../models/Invoice.js");
 
-class InvoiceOps{
-    InvoiceOps() {}
+class InvoiceOps {
+  constructor() {}
 
-    async getAllInvoices() {
-        try{
-          console.log("fetching all invoices");
-        const invoices = await Invoice.find({}).sort({invoiceName: 1});
-        return invoices;
-        } catch (error){
-          console.error("Error fetching invoices: ", error);
-          throw error;
-        }
-      }
-    
-      async getInvoiceById(id) {
-        try{
-          console.log("fetching invoice by id")
-          const invoice = await Invoice.findById(id);
-          return invoice;
-        } catch (error){
-          console.error("Error fetching invoices by id: ", error);
-          throw error;
-        }
-      }
+  async getAllInvoices() {
+    try {
+      console.log("Fetching all invoices");
+      const invoices = await Invoice.find({}).sort({ invoiceNumber : 1 });
+      return invoices;
+    } catch (error) {
+      console.error("Error fetching invoices: ", error);
+      throw error;
+    }
+  }
+  
+
+  async getInvoiceById(id) {
+    try {
+      console.log("Fetching invoice by id");
+      const invoice = await Invoice.findById(id)
+      .populate("profiles")
+      .populate("products")
+      .exec();
+      return invoice;
+    } catch (error) {
+      console.error("Error fetching invoice by id: ", error);
+      throw error;
+    }
+  }
+  
     
       async createInvoice(invoiceObj) {
         try {
