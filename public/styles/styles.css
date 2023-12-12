@@ -335,9 +335,34 @@ input {
   flex-direction: row;
   justify-content: space-between;
 }
-#line-item {
+
+#invoiceCancel, #invoiceSave{
+  margin-top: 20px;
+}
+
+#lineItems{
+  width: 300px;
+}
+
+#quantity_0{
+  height: 40px;
+  width: 90px;
+}
+
+#product_0{
+  margin-right: 20px;
+}
+
+.select-quantity{
+  display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#clientName{
+  width: 250px;
+  height: 40px;
+  margin-bottom: 20px ;
 }
 
 #payment-details {
@@ -361,4 +386,16 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+
+@media print {
+  /* Hide navigation */
+  nav {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+    padding: 20px;
+  }
 }

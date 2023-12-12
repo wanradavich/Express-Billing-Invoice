@@ -7,22 +7,24 @@ const ProfileOps = require("../data/ProfileOps");
 const _profileOps = new ProfileOps();
 // const Invoice = require("../models/Invoice.js");
 
-exports.searchInvoice = async function (req,res) {
-    console.log("searching for invoices..");
-    const searchQuery = req.body.q
+exports.searchInvoice = async function (req, res) {
+  console.log("searching for invoices by number..");
+  const searchQuery = req.body.q;
 
-    try{
-        const invoices = await _invoiceOps.find({
-            invoiceName: {$regex: searchQuery, $options: "i"},
-        });
+  try {
+      const invoices = await _invoiceOps.find({
+          invoiceNumber: parseInt(searchQuery)
+      });
 
-        res.render("invoices", {
-            invoices: invoices
-        });
-    } catch (error){
-        res.status(500).json({ error: error.message });
-    }
+      res.render("invoices", {
+          invoices: invoices
+      });
+  } catch (error) {
+      console.error("Error searching for invoices: ", error);
+      res.status(500).json({ error: error.message });
+  }
 }
+
 
 exports.Invoices = async function (request, response) {
     console.log("loading invoices from controller");
@@ -84,8 +86,8 @@ exports.Invoices = async function (request, response) {
     let profileObj = await _profileOps.getProfileById(profileId);
 
     const lineItems = [];
-    const quantities = req.body.quantities;
-    const productIds = req.body.productIds
+    const quantities = request.body.quantities;
+    const productIds = request.body.productIds
     //going to try to loop through the product Ids for line items
     for ( let i = 0; i < productIds.length; i++){
       const product = await _productOps.getProductById(productIds[i]);
@@ -132,7 +134,7 @@ exports.Invoices = async function (request, response) {
 exports.DeleteInvoiceById = async function (request, response) {
   const invoiceId = request.params.id;
   console.log(`deleting a single invoice by id ${invoiceId}`);
-  let deletedProduct = await _invoiceOps.deleteProduct(invoiceId);
+  let deletedProduct = await _invoiceOps.deleteInvoice(invoiceId);
   let invoices = await _invoiceOps.getAllInvoices();
 
   if (deletedProduct) {
