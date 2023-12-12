@@ -2,12 +2,16 @@
 <h1>New Invoice</h1>
 <div id="invoice-form-container">
     <form action="/invoices/create" method="POST">
-        <label for="clientName">Client: </label>
-        <select id="clientName" name="clientName">
-            <% profiles.forEach(profile => { %>
-                <option value="<%= profile._id %>"><%= profile.name %></option>
-            <% }) %>
-        </select>
+        <div>
+            <label for="clientName">Client: </label>
+            <select id="clientName" name="clientName">
+                <% profiles.forEach(profile => { %>
+                    <option value="<%= profile._id %>"><%= profile.name %></option>
+                <% }) %>
+            </select>
+        </div>
+       
+        
         <label for="invoiceNumber">Invoice Number: </label>
         <input id="invoiceNumber" name="invoiceNumber" type="text" value="<%= invoice.invoiceNumber %>">
         <label for="issueDate">Issue Date: </label>
@@ -26,22 +30,24 @@
         <div id="lineItems">
             <div id="lineItemFields">
                 <div class="line-item">
-                    <label for="product_0">Product:</label>
-                    <select id="product_0" name="product_0">
-                        <% products.forEach(product => { %>
-                            <option value="<%= product._id %>"><%= product.productName %> - <%= product.unitPrice %></option>
-                        <% }) %>
-                    </select>
-                    <label for="quantity_0">Quantity:</label>
-                    <input id="quantity_0" name="quantity_0" type="number">
+                    <div class="select-quantity">
+                        <label for="product_0">Product:</label>
+                        <select id="product_0" name="product_0">
+                            <% products.forEach(product => { %>
+                                <option value="<%= product._id %>"><%= product.productName %> - <%= product.unitPrice %></option>
+                            <% }) %>
+                        </select>
+                        <label for="quantity_0">Quantity:</label>
+                        <input id="quantity_0" name="quantity_0" type="number">
+                    </div>     
                 </div>
             </div>
             <button class="btn btn-success" type="button" onclick="addLineItem()">+ Add Another Line Item</button>
         </div>
         
-        <button class="btn btn-info" type="submit" value="Submit">Save</button>
+        <button id="invoiceSave" class="btn btn-info" type="submit" value="Submit">Save</button>
     </form>
-    <a class="cancelBtn" href="/invoices"><button class="btn btn-danger">Cancel</button></a>
+    <a id="invoiceCancel" class="cancelBtn" href="/invoices"><button class="btn btn-danger">Cancel</button></a>
 </div>
 <%= errorMessage %>
 
