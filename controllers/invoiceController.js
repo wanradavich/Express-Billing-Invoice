@@ -8,22 +8,24 @@ const _profileOps = new ProfileOps();
 const moment = require('moment');
 // const Invoice = require("../models/Invoice.js");
 
-exports.searchInvoice = async function (req,res) {
-    console.log("searching for invoices..");
-    const searchQuery = req.body.q
+exports.searchInvoice = async function (req, res) {
+  console.log("searching for invoices by number..");
+  const searchQuery = req.body.q;
 
-    try{
-        const invoices = await _invoiceOps.find({
-            invoiceName: {$regex: searchQuery, $options: "i"},
-        });
+  try {
+      const invoices = await _invoiceOps.find({
+          invoiceNumber: parseInt(searchQuery)
+      });
 
-        res.render("invoices", {
-            invoices: invoices
-        });
-    } catch (error){
-        res.status(500).json({ error: error.message });
-    }
+      res.render("invoices", {
+          invoices: invoices
+      });
+  } catch (error) {
+      console.error("Error searching for invoices: ", error);
+      res.status(500).json({ error: error.message });
+  }
 }
+
 
 exports.Invoices = async function (request, response) {
     console.log("loading invoices from controller");
@@ -49,7 +51,7 @@ exports.Invoices = async function (request, response) {
     let invoices = await _invoiceOps.getAllInvoices();
     if (invoice) {
       response.render("invoiceDetails", {
-        title: "Express Yourself - " + invoice.invoiceName,
+        title: "Express Yourself - " + invoice.invoiceNumber,
         invoices: invoices,
         invoiceId: request.params.id,
         layout: "layouts/full-width",
@@ -58,12 +60,10 @@ exports.Invoices = async function (request, response) {
     } else {
       response.render("invoiceDetails", {
         title: "Express Yourself - Invoices",
-        products: [],
+        invoices: [],
       });
     }
   };
-
-
 
   exports.Create = async function (request, response) {
     let products = await _productOps.getAllProducts();
@@ -84,6 +84,7 @@ exports.Invoices = async function (request, response) {
 
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
+
 
     const products = [];
     let totalDue = 0;
@@ -146,44 +147,6 @@ exports.Invoices = async function (request, response) {
       });
     }
   };
-  
-
-// Handle profile form GET request
-// exports.Create = async function (request, response) {
-//   response.render("invoice-form", {
-//     title: "Create Invoice",
-//     errorMessage: "",
-//     invoice: {},
-//     layout: "layouts/full-width"
-//   });
-// }; 
-  
-//   exports.CreateProduct = async function (request, response) {
-//     let tempProductObj = new Product({
-//       productName: request.body.productName,
-//       unitCost: request.body.unitCost,
-//       productCode: request.body.productCode,
-//     });
-  
-//     let responseObj = await _productOps.createProduct(tempProductObj);
-  
-//     if (responseObj.errorMsg == "") {
-//       let products = await _productOps.getAllProducts();
-//       console.log(responseObj.obj);
-//       response.render("products", {
-//         title: "Products",
-//         products: products,
-//         product_id: responseObj.obj._id.valueOf(),
-//       });
-//     } else {
-//       console.log("An error occured. Product was not created.");
-//       response.render("product-form", {
-//         title: "Create product",
-//         product: responseObj.obj,
-//         errorMessage: responseObj.errorMsg,
-//       });
-//     }
-//   };
 
 exports.DeleteInvoiceById = async function (request, response) {
   const invoiceId = request.params.id;

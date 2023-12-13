@@ -11,6 +11,10 @@ const invoiceSchema = new mongoose.Schema({
             type: Number,
             required: true
         },
+        invoiceName: {
+            type: String,
+            required: true
+        },
         invoiceCompanyName: {
             type: Profile.schema,
             required: true
@@ -35,14 +39,7 @@ const invoiceSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        // itemRate: {
-        //     type: Number,
-        //     required: true
-        // },
-        // itemAmount:{
-        //     type: Number,
-        //     required: true
-        // } 
+
     },
     {
         collection: "invoices"
