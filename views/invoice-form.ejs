@@ -1,4 +1,4 @@
-<%= errorMessage %> 
+
 <h1>New Invoice</h1>
 <div id="invoice-form-container">
     <form action="/invoices/create" method="POST">
@@ -27,7 +27,6 @@
             <input type="hidden" name="productQuantities[]" value="0">
         </div>
         <div class="product-qty">
-            <div class="product">
                 <label for="invoiceProduct">Products: </label>
                 <div class="input-wrapper" class="line-item-row" id="line-items">
                     <select id="invoiceProduct" name="productIds[]">
@@ -39,11 +38,9 @@
                             <option value="<%= product._id %>"><%= product.productName %></option>
                         <% }) %>
                     </select>
-            </div>
-            <div class="qty">
                 <label for="itemAmount">Quantity: </label>
                 <input id="itemAmount" name="productQuantities[]" type="number" value="1">
-            </div>  
+           
         </div>  
         </div>
         
