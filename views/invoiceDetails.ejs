@@ -39,7 +39,7 @@
     
                         <div id="total-amount">
                             <div><b>PLEASE PAY</b></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
+                            <div>$<%= parseFloat(invoices[i].invoiceTotalDue).toFixed(2) %></div>
                         </div>
     
                         <div id="due-date">
@@ -75,7 +75,7 @@
                         </div>
                         <div id="payment-summary">
                             <div><b>TOTAL DUE:</b></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
+                            <div>$<%= parseFloat(invoices[i].invoiceTotalDue).toFixed(2) %></div>
                         </div>
                     </div>
                 </div>
