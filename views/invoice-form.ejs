@@ -43,12 +43,20 @@
     </form>
 </div>
 <%= errorMessage %>
-<script>
+<!-- <script>
     const addLineItems = () => {
         const lineItems = document.querySelector(".input-wrapper");
         const clonedLineItem = lineItems.cloneNode(true);
         document.getElementById("line-items").appendChild(clonedLineItem);
         //lineItems.parentNode.insertBefore(clonedLineItem, lineItems.nextSibling);
 
+    }
+</script> -->
+<script>
+    const addLineItems = () => {
+        const lineItems = document.querySelectorAll(".input-wrapper");
+        const lastLineItem = lineItems[lineItems.length - 1];
+        const clonedLineItem = lastLineItem.cloneNode(true);
+        document.getElementById("line-items").appendChild(clonedLineItem);
     }
 </script>

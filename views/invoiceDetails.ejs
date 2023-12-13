@@ -29,24 +29,18 @@
 
                             <div id="clientInvoiceId">Invoice Id: <%= invoices[i].id %></div>
                         </div>
-    
+
                         <div id="issue-date">
                             <div><b>DATE</b></div>
-
                             <div> <%= invoices[i].invoiceDate %></div>
-
                         </div>
-    
                         <div id="total-amount">
                             <div><b>PLEASE PAY</b></div>
                             <div>$<%= parseFloat(invoices[i].invoiceTotalDue).toFixed(2) %></div>
                         </div>
-    
                         <div id="due-date">
                             <div><b>DUE DATE</b></div>
-
                             <div><%= invoices[i].invoiceDueDate %></div>
-
                         </div>
                     </div>
                     
