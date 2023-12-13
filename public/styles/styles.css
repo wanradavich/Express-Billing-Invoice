@@ -475,4 +475,13 @@ input {
     margin: 0;
     padding: 20px;
   }
+  /*Hide Button*/
+  button {
+    display: none;
+  }
+
+  /* Hide footer */
+  footer {
+    display: none;
+  }
 }
