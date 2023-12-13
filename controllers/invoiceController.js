@@ -5,6 +5,7 @@ const ProductOps = require("../data/ProductOps");
 const _productOps = new ProductOps();
 const ProfileOps = require("../data/ProfileOps");
 const _profileOps = new ProfileOps();
+const moment = require('moment');
 // const Invoice = require("../models/Invoice.js");
 
 exports.searchInvoice = async function (req, res) {
@@ -54,6 +55,7 @@ exports.Invoices = async function (request, response) {
         invoices: invoices,
         invoiceId: request.params.id,
         layout: "layouts/full-width",
+        products: invoice.invoiceProduct
       });
     } else {
       response.render("invoiceDetails", {
@@ -78,55 +80,70 @@ exports.Invoices = async function (request, response) {
   };
 
   exports.CreateInvoice = async function (request, response) {
-    let productId = request.body.invoiceProduct;
-    let productObj = await _productOps.getProductById(productId);
-    console.log(productId);
-    console.log(productObj);
+    console.log(request.body);
+
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
 
-    const lineItems = [];
-    const quantities = request.body.quantities;
-    const productIds = request.body.productIds
-    //going to try to loop through the product Ids for line items
-    for ( let i = 0; i < productIds.length; i++){
-      const product = await _productOps.getProductById(productIds[i]);
-      lineItems.push({
-        product: product.productName,
-        quantity: quantities[i],
-        rate: product.unitCost,
-        amount: quantities[i] * product.unitCost,
-      });
+
+    const products = [];
+    let totalDue = 0;
+
+    for (let i = 0; i < request.body["productIds[]"].length; i++) {
+      if (request.body["productIds[]"][i] == "0"){
+        continue;
+      }
+      if (request.body["productIds[]"][i] == ""){
+        continue;
+      }
+      let product = await _productOps.getProductById(request.body["productIds[]"][i]);
+      if(request.body["productQuantities[]"][i] != ""){
+        product.quantity = request.body["productQuantities[]"][i];
+      }
+      totalDue += product.unitCost * product.quantity;
+      products.push(product);
     }
 
     let tempInvoiceObj = new Invoice({
+      
       invoiceNumber: request.body.invoiceNumber,
-      invoiceCompanyName: profileObj.name,
-      invoiceProduct: productObj.productName,
+      invoiceCompanyName: profileObj,
+      //invoiceEmail: profileObj.email,
+      invoiceProduct: products,
       invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
-      lineItems: lineItems, // pass line items
-      invoiceTotalDue: itemRate * itemAmount
+      // itemAmount: request.body.itemAmount,
+      // itemRate: productObj.unitCost,
+      invoiceTotalDue: totalDue,
+      invoiceName: `Invoice # ${request.body.invoiceNumber} - ${profileObj.name}`
     });
+    
 
     let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
     if(responseObj.errorMsg == "") {
-      let products = await _productOps.getAllProducts();
-      let profiles = await _profileOps.getAllProfiles();
+      //let products = await _productOps.getAllProducts();
+      //let profiles = await _profileOps.getAllProfiles();
+      let invoices = await _invoiceOps.getAllInvoices();
       console.log(responseObj.obj);
-      response.render("invoiceDetails", {
+      response.render("invoices", {
         title: "Invoice",
-        products: products,
-        profiles: profiles,
-        invoiceId: responseObj.obj._id.valueOf()
+        //products: products,
+       // profiles: profiles,
+        invoiceId: responseObj.obj._id.valueOf(),
+        invoices: invoices
       });
     } else {
+      let products = await _productOps.getAllProducts();
+      let profiles = await _profileOps.getAllProfiles();
       console.log("An error occured. Invoice was not created.");
       response.render("invoice-form", {
         title: "Create Invoice",
         invoice: responseObj.obj,
-        errorMessage: responseObj.errorMsg
+        errorMessage: responseObj.errorMsg,
+        profiles: profiles,
+        products: products,
+        invoice_id: null,
       });
     }
   };

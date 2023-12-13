@@ -271,6 +271,92 @@ input {
 
 /* Invoice styling - Kai */
 /* #invoice-page {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+/*end of invoice styling */
+.invoiceDetails {
+  width: 700px;
+  height: 100%;
+  margin: 0 auto;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+}
+#client-info {
+  margin-right: 60px;
+}
+#details-container {
+  width: 100%;
+  display: flex;
+
+  padding-right: 20px;
+}
+#invoiceHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 160px;
+  width: 100%;
+  font-size: 1rem;
+  padding: 15px;
+}
+
+#summary {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  font-size: 1rem;
+  width: 100%;
+  margin-bottom: 90px;
+}
+#clientInvoiceId {
+  font-size: 0.75rem;
+}
+#billable-details {
+  display: flex;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 40px;
+}
+#issue-date, #total-amount, #due-date {
+  font-size: 0.75rem;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 22px;
+  padding-right: 22px;
+}
+
+#row-details {
+  flex-direction: row;
+  justify-content: space-between;
+}
+#line-item {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#payment-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 1rem;
+  margin-top: 40px;
+}
+#invoiceNumberHeader {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+}
+#back-to-invoices-btn {
+  margin-top: 30px;
+
   display: flex;
   align-items: center;
   justify-content: center;

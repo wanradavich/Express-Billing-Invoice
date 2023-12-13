@@ -1,8 +1,11 @@
 <% for (let i = 0; i < invoices.length; i++) { %> 
     <% if (invoices[i].id === invoiceId) { %>
         <section class="invoiceDetails">
-            <div id="invoiceHeader">
+
+            <header id="invoiceHeader">
+
                 <img id="logo" src="/images/logo-img.png">
+
                 <address id="company-info">
                     <div>Sydnee + Pat Solutions</div>
                     <div>555 Seymour Street</div>
@@ -11,21 +14,27 @@
                     <div>sydandpat@hotmail.com</div>
                 </address>
                 <h2 id="invoiceNumberHeader">Invoice Number: <%= invoices[i].invoiceNumber %></h2>
-            </div>
+
+            </header>
+
 
             <main id="details-container">
                 <div id="view">
                     <div id="summary">
                         <div id="client-info">
                             <h3>Bill To:</h3>
-                            <div><%= invoices[i].invoiceCompanyName %></div>
-                            <div><%= invoices[i].invoiceEmail %></div>
+
+                            <div><%= invoices[i].invoiceCompanyName.name %></div>
+                            <div><%= invoices[i].invoiceCompanyName.email %></div>
+
                             <div id="clientInvoiceId">Invoice Id: <%= invoices[i].id %></div>
                         </div>
     
                         <div id="issue-date">
                             <div><b>DATE</b></div>
-                            <div><%= new Date(invoices[i].invoiceDate).toISOString().split('T')[0] %></div>
+
+                            <div> <%= invoices[i].invoiceDate %></div>
+
                         </div>
     
                         <div id="total-amount">
@@ -35,7 +44,9 @@
     
                         <div id="due-date">
                             <div><b>DUE DATE</b></div>
-                            <div><%= new Date(invoices[i].invoiceDate).toISOString().split('T')[0] %></div>
+
+                            <div><%= invoices[i].invoiceDueDate %></div>
+
                         </div>
                     </div>
                     
@@ -46,12 +57,16 @@
                             <div><b>Rate</b></div>
                             <div><b>Amount</b></div>
                         </div>
-                        <div id="line-item">
-                            <div><%= invoices[i].invoiceProduct %></div>
-                            <div><%= invoices[i].itemAmount %></div>
-                            <div>$<%= invoices[i].itemRate %></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
-                        </div>
+
+                        <% products.forEach (product => { %>
+                            <div id="line-item">
+                                <div><%= product.productName %></div>
+                                <div><%= product.quantity %></div>
+                                <div>$<%= product.unitCost %></div>
+                                <div>$<%= product.quantity * product.unitCost %></div>
+                            </div>
+                        <% }) %>
+                     
                     </div>
                     <div id="payment-details">
                         <div id="payment-method">
@@ -70,4 +85,6 @@
             </main>
         </section>
     <% } %> 
+
 <% } %> 
+
