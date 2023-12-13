@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const Profile = require("./Profile");
+const Product = require("./Product");
+
 const invoiceSchema = new mongoose.Schema({
         invoiceName: {
             type: String,
@@ -9,17 +12,17 @@ const invoiceSchema = new mongoose.Schema({
             required: true
         },
         invoiceCompanyName: {
-            type: String,
+            type: Profile.schema,
             required: true
         },
-        invoiceEmail: {
-            type: String,
+        // invoiceEmail: {
+        //     type: String,
+        //     required: true
+        // },
+        invoiceProduct: [{
+            type: Product.schema,
             required: true
-        },
-        invoiceProduct: {
-            type: String,
-            required: true
-        },
+        }],
         invoiceDate: {
             type: String,
             required: true
@@ -32,14 +35,14 @@ const invoiceSchema = new mongoose.Schema({
             type: String,
             required: true
         },
-        itemRate: {
-            type: Number,
-            required: true
-        },
-        itemAmount:{
-            type: Number,
-            required: true
-        } 
+        // itemRate: {
+        //     type: Number,
+        //     required: true
+        // },
+        // itemAmount:{
+        //     type: Number,
+        //     required: true
+        // } 
     },
     {
         collection: "invoices"

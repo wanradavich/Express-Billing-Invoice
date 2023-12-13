@@ -79,23 +79,46 @@ exports.Invoices = async function (request, response) {
   };
 
   exports.CreateInvoice = async function (request, response) {
-    let productId = request.body.invoiceProduct;
-    let productObj = await _productOps.getProductById(productId);
-    console.log(productId);
-    console.log(productObj);
+    console.log(request.body);
+    // loading the product object 
+    // let productId = request.body.invoiceProduct;
+    // let productObj = await _productOps.getProductById(productId);
+    // console.log(productId);
+    // console.log(productObj);
+
+    // loading the profile object 
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
 
+    const products = [];
+    let totalDue = 0;
+
+    for (let i = 0; i < request.body["productIds[]"].length; i++) {
+      if (request.body["productIds[]"][i] == "0"){
+        continue;
+      }
+      if (request.body["productIds[]"][i] == ""){
+        continue;
+      }
+      let product = await _productOps.getProductById(request.body["productIds[]"][i]);
+      if(request.body["productQuantities[]"][i] != ""){
+        product.quantity = request.body["productQuantities[]"][i];
+      }
+      totalDue += product.unitCost * product.quantity;
+      products.push(product);
+    }
+
     let tempInvoiceObj = new Invoice({
+      
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj.name,
-      invoiceEmail: profileObj.email,
-      invoiceProduct: productObj.productName,
+      //invoiceEmail: profileObj.email,
+      invoiceProduct: products,
       invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
-      itemAmount: request.body.itemAmount,
-      itemRate: productObj.unitCost,
-      invoiceTotalDue: productObj.unitCost * request.body.itemAmount,
+      // itemAmount: request.body.itemAmount,
+      // itemRate: productObj.unitCost,
+      invoiceTotalDue: totalDue,
       invoiceName: `Invoice # ${request.body.invoiceNumber} - ${profileObj.name}`
     });
     

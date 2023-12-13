@@ -48,20 +48,36 @@
         <label for="dueDate">Due Date: </label>
         <input id="dueDate" name="dueDate" type="date" value="<%= invoice.invoiceDueDate %>">
 
-        <input type="hidden" id="">
+        <input type="hidden" name="productIds[]" value="0">
+        <input type="hidden" name="productQuantities[]" value="0">
 
         <label for="invoiceProduct">Products: </label>
-        <select id="invoiceProduct" name="invoiceProduct">
-            <% products.forEach(product => { %>
-                <option value="<%= product._id %>"><%= product.productName %></option>
-            <% }) %>
-        </select>
-        <label for="itemAmount">Quantity: </label>
-        <input id="itemAmount" name="itemAmount" type="number" value="<%= invoice.itemAmount %>">
+        <div class="input-wrapper" class="line-item-row" id="line-items">
+            <select id="invoiceProduct" name="productIds[]">
+                <!-- <% for (let i = 0; i < products.length; i++) { %>
+                    <option value="<%= products[i].id %>"><%= products[i].productName %></option>
 
-        <button type="button" onclick="addLineItem()">+ Add Another Line Item</button>
+                <% } %> -->
+                <% products.forEach(product => { %>
+                    <option value="<%= product._id %>"><%= product.productName %></option>
+                <% }) %>
+            </select>
+            <label for="itemAmount">Quantity: </label>
+            <input id="itemAmount" name="productQuantities[]" type="number" value="1">
+        </div>
+        
+        <button type="button" id="addLineItem" onclick="addLineItems()">+ Add Another Line Item</button>
         <button type="submit" value="Submit">Save</button>
         <a href="/invoices"><button>Cancel</button></a>
     </form>
 </div>
 <%= errorMessage %>
+<script>
+    const addLineItems = () => {
+        const lineItemElement = document.getElementById("")
+        const lineItems = document.querySelector(".input-wrapper");
+        const clonedLineItem = lineItems.cloneNode(true);
+        document.getElementById("line-items").appendChild(clonedLineItem);
+        //lineItems.parentNode.insertBefore(clonedLineItem, lineItems.nextSibling);
+    }
+</script>
