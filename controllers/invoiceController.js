@@ -9,22 +9,22 @@ const moment = require('moment');
 // const Invoice = require("../models/Invoice.js");
 
 exports.searchInvoice = async function (req, res) {
-  console.log("searching for invoices by number..");
-  const searchQuery = req.body.q;
+  console.log("searching for invoice");
+  const searchQuery = req.query.q;
 
   try {
-      const invoices = await _invoiceOps.find({
-          invoiceNumber: parseInt(searchQuery)
-      });
+    const invoices = await _invoiceOps.find({
+      invoiceName: { $regex: searchQuery, $options: "i" },
+    });
 
-      res.render("invoices", {
-          invoices: invoices
-      });
+    res.render("invoices", {
+      title: "Invoice Search",
+      invoices: invoices,
+    });
   } catch (error) {
-      console.error("Error searching for invoices: ", error);
-      res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });
   }
-}
+};
 
 
 exports.Invoices = async function (request, response) {

@@ -9,7 +9,7 @@ require("dotenv").config();
 //set up for the searchbar
 const profileController = require("./controllers/ProfileController");
 const productController = require("./controllers/ProductController");
-// const invoiceController = require("./controllers/invoiceController"); <-- uncomment when get to search bar
+const invoiceController = require("./controllers/invoiceController");
 //declaring mongoose
 const mongoose = require("mongoose");
 
@@ -63,7 +63,7 @@ app.get("/profiles/search", profileController.searchProfiles);
 
 // Product search route
 app.get("/products/search", productController.searchProducts);
-// app.get("/invoices/search", invoiceController.searchProducts) //<--- uncomment after search bar built
+app.get("/invoices/search", invoiceController.searchInvoice);
 
 //routes
 app.use("/", indexRouter);
