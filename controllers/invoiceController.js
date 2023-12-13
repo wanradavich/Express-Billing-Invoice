@@ -26,7 +26,6 @@ exports.searchInvoice = async function (req, res) {
   }
 };
 
-
 exports.Invoices = async function (request, response) {
     console.log("loading invoices from controller");
     let invoices = await _invoiceOps.getAllInvoices();
@@ -108,12 +107,9 @@ exports.Invoices = async function (request, response) {
       
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj,
-      //invoiceEmail: profileObj.email,
       invoiceProduct: products,
       invoiceDate: request.body.issueDate,
       invoiceDueDate: request.body.dueDate,
-      // itemAmount: request.body.itemAmount,
-      // itemRate: productObj.unitCost,
       invoiceTotalDue: totalDue,
       invoiceName: `Invoice # ${request.body.invoiceNumber} - ${profileObj.name}`
     });
@@ -122,14 +118,10 @@ exports.Invoices = async function (request, response) {
     let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
     if(responseObj.errorMsg == "") {
-      //let products = await _productOps.getAllProducts();
-      //let profiles = await _profileOps.getAllProfiles();
       let invoices = await _invoiceOps.getAllInvoices();
       console.log(responseObj.obj);
       response.render("invoices", {
         title: "Invoice",
-        //products: products,
-       // profiles: profiles,
         invoiceId: responseObj.obj._id.valueOf(),
         invoices: invoices
       });
