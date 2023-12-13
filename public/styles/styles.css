@@ -6,7 +6,7 @@
 } */
 
 body {
-  background-image: url(images/bg-photo.jpg);
+  background-image: url("../images/bg-photo.jpg");
 }
   
   /* Style for horizontal navigation */
