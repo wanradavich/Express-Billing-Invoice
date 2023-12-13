@@ -11,6 +11,10 @@ const productSchema = new mongoose.Schema({
     unitCost: {
         type: Number,
         required: true,
+    },
+    quantity : {
+        type: Number,
+        required: false
     }
     },
     {collection: "products"}

@@ -53,6 +53,7 @@ exports.Invoices = async function (request, response) {
         invoices: invoices,
         invoiceId: request.params.id,
         layout: "layouts/full-width",
+        products: invoice.invoiceProduct
       });
     } else {
       response.render("invoiceDetails", {
@@ -80,13 +81,7 @@ exports.Invoices = async function (request, response) {
 
   exports.CreateInvoice = async function (request, response) {
     console.log(request.body);
-    // loading the product object 
-    // let productId = request.body.invoiceProduct;
-    // let productObj = await _productOps.getProductById(productId);
-    // console.log(productId);
-    // console.log(productObj);
 
-    // loading the profile object 
     let profileId = request.body.clientName;
     let profileObj = await _profileOps.getProfileById(profileId);
 
@@ -111,7 +106,7 @@ exports.Invoices = async function (request, response) {
     let tempInvoiceObj = new Invoice({
       
       invoiceNumber: request.body.invoiceNumber,
-      invoiceCompanyName: profileObj.name,
+      invoiceCompanyName: profileObj,
       //invoiceEmail: profileObj.email,
       invoiceProduct: products,
       invoiceDate: request.body.issueDate,
@@ -138,11 +133,16 @@ exports.Invoices = async function (request, response) {
         invoices: invoices
       });
     } else {
+      let products = await _productOps.getAllProducts();
+      let profiles = await _profileOps.getAllProfiles();
       console.log("An error occured. Invoice was not created.");
       response.render("invoice-form", {
         title: "Create Invoice",
         invoice: responseObj.obj,
-        errorMessage: responseObj.errorMsg
+        errorMessage: responseObj.errorMsg,
+        profiles: profiles,
+        products: products,
+        invoice_id: null,
       });
     }
   };

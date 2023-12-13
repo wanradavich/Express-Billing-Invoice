@@ -18,8 +18,8 @@
                     <div id="summary">
                         <div id="client-info">
                             <h3>Bill To:</h3>
-                            <div><%= invoices[i].invoiceCompanyName %></div>
-                            <div><%= invoices[i].invoiceEmail %></div>
+                            <div><%= invoices[i].invoiceCompanyName.name %></div>
+                            <div><%= invoices[i].invoiceCompanyName.email %></div>
                             <div id="clientInvoiceId">Invoice Id: <%= invoices[i].id %></div>
                         </div>
     
@@ -46,12 +46,15 @@
                             <div><b>Rate</b></div>
                             <div><b>Amount</b></div>
                         </div>
-                        <div id="line-item">
-                            <div><%= invoices[i].invoiceProduct %></div>
-                            <div><%= invoices[i].itemAmount %></div>
-                            <div>$<%= invoices[i].itemRate %></div>
-                            <div>$<%= invoices[i].invoiceTotalDue %></div>
-                        </div>
+                        <% products.forEach (product => { %>
+                            <div id="line-item">
+                                <div><%= product.productName %></div>
+                                <div><%= product.quantity %></div>
+                                <div>$<%= product.unitCost %></div>
+                                <div>$<%= product.quantity * product.unitCost %></div>
+                            </div>
+                        <% }) %>
+                        
                     </div>
                     <div id="payment-details">
                         <div id="payment-method">
