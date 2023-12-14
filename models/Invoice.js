@@ -9,8 +9,9 @@ const invoiceSchema = new mongoose.Schema({
         },
         invoiceNumber: {
             type: Number,
+            unique: true,
             required: true,
-            unique: true
+            
         },
         invoiceCompanyName: {
             type: Profile.schema,
