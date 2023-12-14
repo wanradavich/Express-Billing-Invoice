@@ -9,22 +9,22 @@ const moment = require('moment');
 // const Invoice = require("../models/Invoice.js");
 
 exports.searchInvoice = async function (req, res) {
-  console.log("searching for invoice");
-  const searchQuery = req.query.q;
+  console.log("searching for invoices by number..");
+  const searchQuery = req.body.q;
 
   try {
-    const invoices = await _invoiceOps.find({
-      invoiceName: { $regex: searchQuery, $options: "i" },
-    });
+      const invoices = await _invoiceOps.find({
+          invoiceNumber: parseInt(searchQuery)
+      });
 
-    res.render("invoices", {
-      title: "Invoice Search",
-      invoices: invoices,
-    });
+      res.render("invoices", {
+          invoices: invoices
+      });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+      console.error("Error searching for invoices: ", error);
+      res.status(500).json({ error: error.message });
   }
-};
+}
 
 
 exports.Invoices = async function (request, response) {
@@ -79,6 +79,7 @@ exports.Invoices = async function (request, response) {
     });
   };
 
+
   exports.CreateInvoice = async function (request, response) {
     console.log(request.body);
 
@@ -120,7 +121,7 @@ exports.Invoices = async function (request, response) {
     
 
     let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
-
+    
     if(responseObj.errorMsg == "") {
       //let products = await _productOps.getAllProducts();
       //let profiles = await _profileOps.getAllProfiles();
