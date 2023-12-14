@@ -104,7 +104,6 @@ exports.Invoices = async function (request, response) {
     }
 
     let tempInvoiceObj = new Invoice({
-      
       invoiceNumber: request.body.invoiceNumber,
       invoiceCompanyName: profileObj,
       invoiceProduct: products,
@@ -114,7 +113,6 @@ exports.Invoices = async function (request, response) {
       invoiceName: `Invoice # ${request.body.invoiceNumber} - ${profileObj.name}`
     });
     
-
     let responseObj = await _invoiceOps.createInvoice(tempInvoiceObj);
 
     if(responseObj.errorMsg == "") {
@@ -159,4 +157,3 @@ exports.DeleteInvoiceById = async function (request, response) {
     });
   }
 };
-

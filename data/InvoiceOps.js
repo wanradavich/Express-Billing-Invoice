@@ -26,6 +26,7 @@ class InvoiceOps{
       }
     
       async createInvoice(invoiceObj) {
+        if(invoiceObj.invoiceNumber )
         try {
           const error = await invoiceObj.validateSync();
           if (error) {

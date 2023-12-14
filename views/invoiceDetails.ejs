@@ -3,9 +3,7 @@
         <section class="invoiceDetails">
 
             <header id="invoiceHeader">
-
                 <img id="logo" src="/images/logo-img.png">
-
                 <address id="company-info">
                     <div>Sydnee + Pat Solutions</div>
                     <div>555 Seymour Street</div>
@@ -14,22 +12,17 @@
                     <div>sydandpat@hotmail.com</div>
                 </address>
                 <h2 id="invoiceNumberHeader">Invoice Number: <%= invoices[i].invoiceNumber %></h2>
-
             </header>
-
 
             <main id="details-container">
                 <div id="view">
                     <div id="summary">
                         <div id="client-info">
                             <h3>Bill To:</h3>
-
                             <div><%= invoices[i].invoiceCompanyName.name %></div>
                             <div><%= invoices[i].invoiceCompanyName.email %></div>
-
                             <div id="clientInvoiceId">Invoice Id: <%= invoices[i].id %></div>
                         </div>
-
                         <div id="issue-date">
                             <div><b>DATE</b></div>
                             <div> <%= invoices[i].invoiceDate %></div>
@@ -79,6 +72,5 @@
             </main>
         </section>
     <% } %> 
-
 <% } %> 
 
