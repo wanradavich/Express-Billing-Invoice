@@ -31,8 +31,9 @@ class InvoiceOps{
           if (error) {
             const response = {
               obj: invoiceObj,
-              errorMsg: error.message,
+              errorMsg: "Error: Could not create invoice.",
             };
+            console.log(error.message)
             return response; // Exit if the model is invalid
           }
     

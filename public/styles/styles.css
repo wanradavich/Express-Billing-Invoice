@@ -465,6 +465,32 @@ input {
   justify-content: space-between;
 }
 
+#invoice-form-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#invoice-form-container label{
+  font-weight: bold;
+}
+
+#invoice-form-container input{
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+
+.qty{
+  width: 60px;
+ 
+}
+
+.product{
+  width: 200px;
+  
+}
+
 @media print {
   /* Hide navigation */
   nav {
@@ -474,5 +500,14 @@ input {
   body {
     margin: 0;
     padding: 20px;
+  }
+  /*Hide Button*/
+  button {
+    display: none;
+  }
+
+  /* Hide footer */
+  footer {
+    display: none;
   }
 }

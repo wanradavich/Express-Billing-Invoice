@@ -9,26 +9,38 @@
                 <% }) %>
             </select>
         </div>
+        <div>
+            <label for="invoiceNumber">Invoice Number: </label>
+            <input id="invoiceNumber" name="invoiceNumber" type="text" value="<%= invoice.invoiceNumber %>">
+        </div>
+        <div>
+            <label for="issueDate">Issue Date: </label>
+            <input id="issueDate" name="issueDate" type="date" value="<%= invoice.invoiceDate %>">
+        </div>
+        <div>
+            <label for="dueDate">Due Date: </label>
+            <input id="dueDate" name="dueDate" type="date" value="<%= invoice.invoiceDueDate %>">
+        </div>
+        <div>
+            <input type="hidden" name="productIds[]" value="0">
+            <input type="hidden" name="productQuantities[]" value="0">
+        </div>
+        <div class="product-qty">
+                <label for="invoiceProduct">Products: </label>
+                <div class="input-wrapper" class="line-item-row" id="line-items">
+                    <select id="invoiceProduct" name="productIds[]">
+                        <!-- <% for (let i = 0; i < products.length; i++) { %>
+                            <option value="<%= products[i].id %>"><%= products[i].productName %></option>
         
-        <label for="invoiceNumber">Invoice Number: </label>
-        <input id="invoiceNumber" name="invoiceNumber" type="text" value="<%= invoice.invoiceNumber %>">
-        <label for="issueDate">Issue Date: </label>
-        <input id="issueDate" name="issueDate" type="date" value="<%= invoice.invoiceDate %>">
-        <label for="dueDate">Due Date: </label>
-        <input id="dueDate" name="dueDate" type="date" value="<%= invoice.invoiceDueDate %>">
-
-        <input type="hidden" name="productIds[]" value="0">
-        <input type="hidden" name="productQuantities[]" value="0">
-
-        <label for="invoiceProduct">Products: </label>
-        <div class="input-wrapper" class="line-item-row" id="line-items">
-            <select id="invoiceProduct" name="productIds[]">
-                <% products.forEach(product => { %>
-                    <option value="<%= product._id %>"><%= product.productName %></option>
-                <% }) %>
-            </select>
-            <label for="itemAmount">Quantity: </label>
-            <input id="itemAmount" name="productQuantities[]" type="number" value="1">
+                        <% } %> -->
+                        <% products.forEach(product => { %>
+                            <option value="<%= product._id %>"><%= product.productName %></option>
+                        <% }) %>
+                    </select>
+                <label for="itemAmount">Quantity: </label>
+                <input id="itemAmount" name="productQuantities[]" type="number" value="1">
+           
+        </div>  
         </div>
 
         <button class="btn btn-primary" type="button" id="addLineItem" onclick="addLineItems()">+ Add Another Line Item</button>
@@ -39,8 +51,9 @@
 <%= errorMessage %>
 <script>
     const addLineItems = () => {
-        const lineItems = document.querySelector(".input-wrapper");
-        const clonedLineItem = lineItems.cloneNode(true);
+        const lineItems = document.querySelectorAll(".input-wrapper");
+        const lastLineItem = lineItems[lineItems.length - 1];
+        const clonedLineItem = lastLineItem.cloneNode(true);
         document.getElementById("line-items").appendChild(clonedLineItem);
     }
 </script>
